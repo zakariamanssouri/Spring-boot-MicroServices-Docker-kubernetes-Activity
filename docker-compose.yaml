@@ -1,0 +1,24 @@
+version: '2'
+services:
+  eureka-service:
+    build: ./eureka-server/eureka-server/
+    ports:
+      - "8761:8761"
+  customer-service:
+    build: ./customer-micro-service/customer-micro-service/ 
+    ports:
+      - "8082:8082"
+    depends_on:
+      - eureka-service
+    environment:
+      - eureka.client.service-url.defaultZone=http://eureka-service:8761/eureka
+  billing-service:
+    build: ./billing-micro-service/billing-micro-service/
+    ports:
+      - "8083:8083"
+    depends_on:
+      - eureka-service
+      - customer-service
+    environment:
+      - eureka.client.service-url.defaultZone=http://eureka-service:8761/eureka
+
