@@ -21,4 +21,13 @@ services:
       - customer-service
     environment:
       - eureka.client.service-url.defaultZone=http://eureka-service:8761/eureka
+  gateway-service:
+    build: ./gateway/
+    ports:
+      - "9999:9999"
+    depends_on:
+      - eureka-service
+    environment:
+      - eureka.client.service-url.defaultZone=http://eureka-service:8761/eureka
+        
 
