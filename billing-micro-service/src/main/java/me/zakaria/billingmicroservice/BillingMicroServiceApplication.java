@@ -21,8 +21,10 @@ public class BillingMicroServiceApplication {
     @Bean
     CommandLineRunner start(InvoiceService invoiceService) {
         return  args -> {
+        /*
             invoiceService.save(new InvoiceRequestDTO(BigDecimal.valueOf(98717), "C01"));
             invoiceService.save(new InvoiceRequestDTO(BigDecimal.valueOf(546466),"C02"));
+			*/
         };
         }
     }

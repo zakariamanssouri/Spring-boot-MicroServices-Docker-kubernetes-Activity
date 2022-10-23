@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customer-service
+  labels:
+    app: customer-service
+spec:
+  selector:
+    matchLabels:
+      app: customer-service
+  template:
+    metadata:
+      labels:
+        app: customer-service
+    spec:
+      containers:
+      - name: customer-service
+        image: customer-micro-service:1.0
+        resources:
+          limits:
+            memory: 1G
+            cpu: "500m"
+        env:
+          - name : SERVICE_URL_DEFAULT_ZONE
+            valueFrom:
+              configMapKeyRef:
+                name: eureka-cm
+                key:  eureka_service_adresse
+        ports:
+        - containerPort: 8082
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer-service-svc
+spec:
+  selector:
+    app: customer-service
+  type: ClusterIP
+  ports:
+  - port: 8082
+    targetPort: 8082
